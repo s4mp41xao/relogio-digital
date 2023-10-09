@@ -2,25 +2,36 @@ const clockContainer = document.querySelector('.clock-container')
 const dayContainer = document.querySelector('.day-container')
 const periodContainer = document.querySelector('.period-container')
 
+// transform the clock display on HTML span 
+const getClockHTML = (hours, minutes, seconds) => `
+<span>${(hours)}</span> :
+<span>${(minutes)}</span> :
+<span>${(seconds)}</span>
+`
+
 const updateClock = () => {
-  const present = new Date()
-  const hours = present.getHours()
-  const minutes = present.getMinutes()
-  const seconds = present.getSeconds()
+  const date = new Date()
 
-  const clockHTML = `
-  <span>${String(hours).length === 1 ? `0${hours}` : hours}</span>:<span>${String(minutes).length === 1 ? `0${minutes}` : minutes}</span>:<span>${String(seconds).length === 1 ? `0${seconds}` : seconds}</span>
-  `
-  clockContainer.innerHTML = clockHTML
+  // add 0 if first value is less than 10
+  const formatTimeUnit = unit => unit < 10 ? `0${unit}` : unit
 
-  const getPeriod = present.toLocaleString().slice('19', '21')
+  // make 12 hour clock
+  const convert12HourClock = unit => unit > 12 ? unit - 12 : unit
+
+  // get hours, minutes, and seconds from "date" and convert units.
+  const hours = formatTimeUnit(convert12HourClock(date.getHours()))
+  const minutes = formatTimeUnit(date.getMinutes())
+  const seconds = formatTimeUnit(date.getSeconds())
+
+  const getPeriod = date.toLocaleString().slice('19', '21')
+
+  const weekDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+  const getDay = weekDays[date.getDay()].toUpperCase()
+
+  // update DOM Elements
+  clockContainer.innerHTML = getClockHTML(hours, minutes, seconds)
   clockContainer.innerHTML += `<span class="period">${getPeriod}</span>`
-
-  const getDay = present.getDay()
-  const nameOfDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-  const namesOfDaysToUpperCase = nameOfDays[getDay].toUpperCase()
-  const day = namesOfDaysToUpperCase
-  dayContainer.innerHTML = day
+  dayContainer.innerHTML = getDay
 }
 
 setInterval(updateClock, 1000)
