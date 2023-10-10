@@ -23,7 +23,7 @@ const updateClock = () => {
   const minutes = formatTimeUnit(date.getMinutes())
   const seconds = formatTimeUnit(date.getSeconds())
 
-  const getPeriod = date.toLocaleString().slice('19', '21')
+  const getPeriod = date.toLocaleString().slice('19', '22')
 
   const weekDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
   const getDay = weekDays[date.getDay()].toUpperCase()
@@ -34,4 +34,4 @@ const updateClock = () => {
   dayContainer.innerHTML = getDay
 }
 
-setInterval(updateClock, 1000)
+setInterval(updateClock, 1000)  
