@@ -18,12 +18,15 @@ const updateClock = () => {
   // make 12 hour clock
   const convert12HourClock = unit => unit > 12 ? unit - 12 : unit
 
+  // convert midnight clock format
+  const midnightConvert = unit => unit == 0 ? (unit = 12) : unit;
+
   // get hours, minutes, and seconds from "date" and convert units.
-  const hours = formatTimeUnit(convert12HourClock(date.getHours()))
+  const hours = midnightConvert(formatTimeUnit(convert12HourClock(date.getHours())))
   const minutes = formatTimeUnit(date.getMinutes())
   const seconds = formatTimeUnit(date.getSeconds())
 
-  const getPeriod = date.toLocaleString().slice('19', '22')
+  const getPeriod = date.toLocaleString().slice('20', '23')
 
   const weekDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
   const getDay = weekDays[date.getDay()].toUpperCase()
@@ -34,4 +37,4 @@ const updateClock = () => {
   dayContainer.innerHTML = getDay
 }
 
-setInterval(updateClock, 1000)  
+setInterval(updateClock, 1000)
